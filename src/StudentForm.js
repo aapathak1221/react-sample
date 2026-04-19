@@ -8,10 +8,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel'
 
 function StudentForm() {
   const [students, setStudents] = useState([]);
-  const [formData, setFormData] = useState({ name: '', dob: '', address: '' });
+  const [formData, setFormData] = useState({ name: '', dob: '', address: '', gender: '' });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -19,11 +23,29 @@ function StudentForm() {
   };
 
   const handleSubmit = (e) => {
+    console.log('Form submitted with data:', formData);
     e.preventDefault();
     const newStudent = { ...formData };
     setStudents([...students, newStudent]);
     setFormData({ name: '', dob: '', address: '' });
   };
+
+  const handleDelete = (index) => {
+    
+    const studentToDelete = window.confirm(`Are you sure you want to delete ${students[index].name}?`);
+    if(!studentToDelete) return;
+    const delStudent = students.filter((_, i) => i !== index);
+    setStudents(delStudent);
+  }
+
+  const handleEdit = (index) => {
+    const isEdit = window.confirm(`Are you sure you want to edit ${students[index].name}? This will remove the student from the list until you submit the form again.`); 
+    if(!isEdit) return;
+    const studentToEdit = students[index];
+    setFormData(studentToEdit);
+    const updatedStudents = students.filter((_, i) => i !== index);
+    setStudents(updatedStudents);
+  }
 
   return (
     <div style={{ padding: '20px' }}>
@@ -60,6 +82,18 @@ function StudentForm() {
           rows={4}
           required
         />
+        <FormLabel component="legend" style={{ marginTop: '10px' }}>Gender</FormLabel>
+        <RadioGroup
+          row
+          name="gender"
+          value={formData.gender}
+          onChange={handleInputChange}
+        >
+          <FormControlLabel value="male" control={<Radio />} label="Male" />
+          <FormControlLabel value="female" control={<Radio />} label="Female" />
+          <FormControlLabel value="other" control={<Radio />} label="Other" />
+        </RadioGroup>
+
         <Button type="submit" variant="contained" color="primary" style={{ marginTop: '10px' }}>
           Register
         </Button>
@@ -73,6 +107,8 @@ function StudentForm() {
               <TableCell>Name</TableCell>
               <TableCell>Date of Birth</TableCell>
               <TableCell>Address</TableCell>
+              <TableCell>Gender</TableCell>
+              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -81,6 +117,15 @@ function StudentForm() {
                 <TableCell>{student.name}</TableCell>
                 <TableCell>{student.dob}</TableCell>
                 <TableCell>{student.address}</TableCell>
+                <TableCell>{student.gender}</TableCell>
+                <TableCell>
+                  <Button variant="contained" color="primary" style={{ marginRight: '10px' }} onClick={() => handleEdit(index)}>
+                    Edit
+                  </Button>
+                  <Button variant="contained" color="secondary" onClick={() => handleDelete(index)}>
+                    Delete
+                  </Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
