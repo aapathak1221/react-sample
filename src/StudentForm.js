@@ -47,6 +47,10 @@ function StudentForm() {
     setStudents(updatedStudents);
   }
 
+  const totalStudents = students.length;
+  const totalMale = students.filter(student => student.gender === 'male').length;
+  const totalFemale = students.filter(student => student.gender === 'female').length; 
+
   return (
     <div style={{ padding: '20px' }}>
       <h1>Student Registration</h1>
@@ -131,6 +135,10 @@ function StudentForm() {
           </TableBody>
         </Table>
       </TableContainer>
+      <h2>Student Statistics</h2>
+      <p>Total Students: {totalStudents}</p>
+      <p>Male Students: {totalMale}</p>
+      <p>Female Students: {totalFemale}</p>
     </div>
   );
 }
