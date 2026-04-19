@@ -40,7 +40,7 @@ function VerifyRegistration({ students, updateStudentStatus }) {
   };
 
   return (
-    <div style={{ padding: '20px' , backgroundColor: 'yellow' }}>
+    <div style={{ padding: '20px' , backgroundColor:'#efe2ef' }}>
       <Typography variant="h5" style={{ marginBottom: '20px' }}>
         Verify Student Registration
       </Typography>
@@ -86,7 +86,7 @@ function VerifyRegistration({ students, updateStudentStatus }) {
         variant="contained"
         color="secondary"
         onClick={() => handleRejected()}
-        style={{ marginTop: '10px' }}
+        style={{ marginTop: '10px', marginLeft: '10px' }}
         >
         Reject
       </Button>
