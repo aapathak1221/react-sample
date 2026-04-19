@@ -1,33 +1,19 @@
+import { httpController } from './httpController';
+
 const API_URL = 'http://localhost:8080/my-app/students'; // Replace with your actual API endpoint
 
 export const registerStudent = async (studentData) => {
-    try {
-        const response = await fetch(API_URL, { 
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(studentData)
-        });
-        if (!response.ok) {
-            throw new Error('Failed to register student');
-        }
-        return await response.json();
-    } catch (error) {
-        console.error('Error:', error);
-        throw error;
-    }
-};
+    return await httpController.post('/students', studentData); // Use the HTTP controller
+  };
+  
+  export const fetchStudents = async () => {
+    return await httpController.get('/students'); // Use the HTTP controller
+  };
 
-export const fetchStudents = async () => {
-    try {
-        const response = await fetch(API_URL);
-        if (!response.ok) { 
-            throw new Error('Failed to fetch students');
-        }
-        return await response.json();
-    } catch (error) {
-        console.error('Error:', error);
-        throw error;
-    }
-}
+  export const updateStudent = async (studentId, studentData) => {
+    return await httpController.put(`/students/${studentId}`, studentData); // Use the HTTP controller
+  };
+
+  export const deleteStudent = async (studentId) => {
+    return await httpController.delete(`/students/${studentId}`); // Use the HTTP controller
+  };    

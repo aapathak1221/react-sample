@@ -16,17 +16,26 @@ import FormLabel from '@mui/material/FormLabel'
 
 function StudentForm() {
   const [students, setStudents] = useState([]);
-  const [formData, setFormData] = useState({ name: '', dob: '', address: '', gender: '' });
+  const [formData, setFormData] = useState({ regNumber: '', name: '', dob: '', address: '', gender: '' });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  const generateRollNumber = () => {
+    const timestamp = Date.now(); // Get current timestamp
+    const randomNum = Math.floor(Math.random() * 1000); // Generate a random number between 0 and 999
+    return `RN${timestamp}${randomNum}`; // Combine to create a unique roll number
+  }
+
   const handleSubmit = (e) => {
     console.log('Form submitted with data:', formData);
     e.preventDefault();
     const newStudent = { ...formData };
+    if(!newStudent.regNumber) {
+      newStudent.regNumber = generateRollNumber(); // Generate and assign a unique roll number
+    }
     setStudents([...students, newStudent]);
     setFormData({ name: '', dob: '', address: '' });
     registerStudent(newStudent)
@@ -116,6 +125,7 @@ function StudentForm() {
         <Table>
           <TableHead>
             <TableRow>
+              <TableCell>Registration Number</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Date of Birth</TableCell>
               <TableCell>Address</TableCell>
@@ -126,6 +136,7 @@ function StudentForm() {
           <TableBody>
             {students.map((student, index) => (
               <TableRow key={index}>
+                <TableCell>{student.regNumber}</TableCell>
                 <TableCell>{student.name}</TableCell>
                 <TableCell>{student.dob}</TableCell>
                 <TableCell>{student.address}</TableCell>
