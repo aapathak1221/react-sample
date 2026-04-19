@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { registerStudent } from './services/studentService'; 
+import VerifyRegistration from './VerifyRegistration'; 
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Table from '@mui/material/Table';
@@ -16,12 +17,20 @@ import FormLabel from '@mui/material/FormLabel'
 
 function StudentForm() {
   const [students, setStudents] = useState([]);
-  const [formData, setFormData] = useState({ regNumber: '', name: '', dob: '', address: '', gender: '' });
+  const [formData, setFormData] = useState({ regNumber: '', name: '', dob: '', address: '', gender: '', status: 'NA' });
 
+  const updateStudentStatus = (regNumber, status) => {
+    const updatedStudents = students.map((student) =>
+      student.regNumber === regNumber ? { ...student, status } : student
+    );
+    setStudents(updatedStudents);
+  };
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
 
   const generateRollNumber = () => {
     const timestamp = Date.now(); // Get current timestamp
@@ -130,6 +139,7 @@ function StudentForm() {
               <TableCell>Date of Birth</TableCell>
               <TableCell>Address</TableCell>
               <TableCell>Gender</TableCell>
+              <TableCell>Varification Status</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -141,6 +151,7 @@ function StudentForm() {
                 <TableCell>{student.dob}</TableCell>
                 <TableCell>{student.address}</TableCell>
                 <TableCell>{student.gender}</TableCell>
+                <TableCell>{student.status}</TableCell>
                 <TableCell>
                   <Button variant="contained" color="primary" style={{ marginRight: '10px' }} onClick={() => handleEdit(index)}>
                     Edit
@@ -158,6 +169,7 @@ function StudentForm() {
       <p>Total Students: {totalStudents}</p>
       <p>Male Students: {totalMale}</p>
       <p>Female Students: {totalFemale}</p>
+      <VerifyRegistration students={students}  updateStudentStatus={updateStudentStatus} />
     </div>
   );
 }
