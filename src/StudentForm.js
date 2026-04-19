@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { registerStudent } from './services/studentService'; 
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Table from '@mui/material/Table';
@@ -28,6 +29,13 @@ function StudentForm() {
     const newStudent = { ...formData };
     setStudents([...students, newStudent]);
     setFormData({ name: '', dob: '', address: '' });
+    registerStudent(newStudent)
+      .then(response => {
+        alert('Student registered successfully:', response);
+      })
+      .catch(error => {
+        alert('Error registering student:', error);
+      });
   };
 
   const handleDelete = (index) => {
