@@ -25,7 +25,7 @@ function StudentForm() {
     );
     setStudents(updatedStudents);
   };
-  
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -128,9 +128,10 @@ function StudentForm() {
           Register
         </Button>
       </form>
-
+      <hr/>
+      <div style={{ marginBottom: '20px', backgroundColor: '#f0f0f0', padding: '10px', borderRadius: '5px' }}>
       <h2>Registered Students</h2>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} style={{ maxHeight: '200px', overflowY: 'auto' }}>
         <Table>
           <TableHead>
             <TableRow>
@@ -165,11 +166,13 @@ function StudentForm() {
           </TableBody>
         </Table>
       </TableContainer>
-      <h2>Student Statistics</h2>
-      <p>Total Students: {totalStudents}</p>
-      <p>Male Students: {totalMale}</p>
-      <p>Female Students: {totalFemale}</p>
-      <VerifyRegistration students={students}  updateStudentStatus={updateStudentStatus} />
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', backgroundColor: '#e0e0e0', padding: '10px', borderRadius: '5px' }}>
+  <div>Total Students: {totalStudents}</div>
+  </div>   
+      <div style={{ marginTop: '20px' }}>
+        <VerifyRegistration students={students}  updateStudentStatus={updateStudentStatus} />
+      </div>
     </div>
   );
 }
